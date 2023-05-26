@@ -14,11 +14,15 @@ const App = () => {
    
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState([0,0,0,0,0,0,0,0])
+  const [best, setBest] = useState(0)
 
   const vote = (selected)=>{
     return function(){
       let newVotes=[...votes]
       newVotes[selected] += 1
+      if (newVotes[selected] > newVotes[best]){
+        setBest(selected)
+      }
       setVotes(newVotes)
     }
 
@@ -26,10 +30,13 @@ const App = () => {
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>{anecdotes[selected]}</p>
       <p>{votes[selected]}</p>
       <button onClick={vote(selected)}>vote</button>
       <button onClick={() => setSelected(Math.floor(Math.random() * anecdotes.length))}>next anecdote</button>
+      <h1>Anecdote with most votes</h1>
+      <p>{anecdotes[best]}</p>
     </div>
   )
 }
