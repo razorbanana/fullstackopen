@@ -14,10 +14,15 @@ console.log(newName)
 
   const handleFormSubmit = (event) => {
     event.preventDefault()
-    let newPersons = persons
-    newPersons.push({name: newName})
-    setPersons(newPersons)
-    setNewName("")
+    if (persons.find(person => person.name == newName)){
+      alert(`${newName} is already added to phonebook`)
+    }else{
+      let newPersons = persons
+      newPersons.push({name: newName})
+      setPersons(newPersons)
+      setNewName("")
+    }
+    
   }
 
   return (
@@ -26,7 +31,7 @@ console.log(newName)
       <h2>Phonebook</h2>
       <form>
         <div>
-          name: <input onChange={handleNameChange}/>
+          name: <input value={newName} onChange={handleNameChange}/>
         </div>
         <div>
           <button type="submit" onClick={handleFormSubmit}>add</button>
