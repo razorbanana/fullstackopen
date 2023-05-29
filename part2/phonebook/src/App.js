@@ -46,6 +46,13 @@ const App = () => {
           setTimeout(()=>{
             setMessage(null)
           },5000)
+        }).catch(response => {
+          setMessage({text:`Number of ${newPerson.name} is already deleted`, className: 'badAlert'})
+          let newPersons = persons.filter(person => person.id != newPerson.id)
+          setPersons(newPersons)
+          setTimeout(()=>{
+            setMessage(null)
+          },5000)
         })
       }
     }else if(persons.find(person => person.number == newNumber)){
