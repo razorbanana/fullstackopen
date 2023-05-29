@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import personService from './service/personService'
 
-const App = ({data}) => {
-  const [persons, setPersons] = useState(data)
+const App = () => {
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
@@ -10,9 +11,7 @@ const App = ({data}) => {
   console.log(newName)
 
   useEffect(()=>{
-    axios.get("http://localhost:3001/persons").then(response=>{
-      setPersons(response.data)
-    })
+    personService.getAll().then(response => setPersons(response))
   },[])
 
   const handleFilterChange = (event) => {
@@ -34,16 +33,19 @@ const App = ({data}) => {
     }else if(persons.find(person => person.number == newNumber)){
       alert(`${newNumber} is already added to phonebook`)
     }else{
-      let newPersons = persons
-      newPersons.push({
+      let newId = persons.reduce((acc, value) => value.id>acc?value.id:acc , 0)+1
+      let newPerson = {
         name: newName,
-        number: newNumber
+        number: newNumber,
+        id: newId
+      }
+      console.log(newPerson)
+      personService.create(newPerson).then(response => {
+        setPersons(persons.concat(response))
+        setNewName("")
+        setNewNumber("")
       })
-      setPersons(newPersons)
-      setNewName("")
-      setNewNumber("")
-    }
-    
+    } 
   }
 
   let personsToShow = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
