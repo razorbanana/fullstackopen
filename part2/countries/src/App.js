@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import countriesService from './service/countriesService'
+import weatherService from './service/weatherService'
 import './App.css'
 
 const App = () => {
@@ -69,7 +70,7 @@ const CountryExpended = ({country}) => {
   Object.entries(country.languages).forEach(function([key, value]) {
     languages.push(value)
   })
-  console.log(country.flags.png)
+  console.log(country)
   return(
     <div>
       <h1>{country.name.common}</h1>
@@ -81,6 +82,32 @@ const CountryExpended = ({country}) => {
         {languages.map(lan => <li key={lan}>{lan}</li>)}
       </ul>
       <img src={country.flags.png} alt={country.flags.alt}/>
+      {country.capitalInfo.latlng === undefined?<br/>: <Weather lat={country.capitalInfo.latlng[0]} lon={country.capitalInfo.latlng[1]}/>}
+      
+      
+    </div>
+  )
+}
+
+const Weather = ({lat, lon}) => {
+  const [weather, setWeather] = useState(null)
+
+  useEffect(() => {
+    weatherService.getWeather(lat, lon).then(response => {
+      console.log('Got response');
+      console.log(response);
+      setWeather(response);
+    });
+  }, []);
+  if(!weather){
+    return null
+  }
+  return(
+    <div>
+      <h2>Weather in capital</h2>
+      <p>temperature is {weather.main.temp}</p>
+      <img src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}/>
+      <p>wind: {weather.wind.speed} m/s</p>
     </div>
   )
 }
