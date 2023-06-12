@@ -3,6 +3,8 @@ const morgan = require("morgan")
 const cors = require("cors")
 
 const app = express()
+app.use(express.static('build'))
+app.use(express.json());
 app.use(morgan(function (tokens, req, res) {
     let str = ''
     if (tokens.method(req, res) == 'POST'){
@@ -17,7 +19,6 @@ app.use(morgan(function (tokens, req, res) {
       str
     ].join(' ')
   }))
-app.use(express.json());
 app.use(cors())
 
 

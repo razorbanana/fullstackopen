@@ -28,12 +28,16 @@ const Statistics = ({good, neutral, bad}) => {
     return(
       <div>
         <h1>statistics</h1>
-        <StatisticLine text="good" value={good}/>
-        <StatisticLine text="neutral" value={neutral}/>
-        <StatisticLine text="bad" value={bad}/>
-        <StatisticLine text="all" value={good+neutral+bad}/>
-        <StatisticLine text="average" value={good-bad}/>
-        <StatisticLine text="positive" value={good*100/(good+neutral+bad)}/>
+        <table>
+          <tbody>
+            <StatisticLine text="good" value={good} percentChar={false}/>
+            <StatisticLine text="neutral" value={neutral} percentChar={false}/>
+            <StatisticLine text="bad" value={bad} percentChar={false}/>
+            <StatisticLine text="all" value={good+neutral+bad} percentChar={false}/>
+            <StatisticLine text="average" value={good-bad} percentChar={false}/>
+            <StatisticLine text="positive" value={good*100/(good+neutral+bad)} percentChar={true}/>
+          </tbody>
+        </table>
       </div>
     )
   }else{
@@ -47,9 +51,12 @@ const Statistics = ({good, neutral, bad}) => {
   
 }
 
-const StatisticLine = ({text, value}) => {
+const StatisticLine = ({text, value, percentChar}) => {
   return(
-    <p>{text} {value}</p>
+    <tr>
+      <td>{text}</td>
+      <td>{value} {percentChar ? "%" : ""}</td>
+    </tr>
   )
 }
 
