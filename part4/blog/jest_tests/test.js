@@ -47,13 +47,13 @@ describe('Favourite blog', () => {
   test('Favourite blog of blogs with 1 and 2 likes', () => {
     const blogs = [{
       "title": "Example 1",
-      "author": "me",
+      "author": "me1",
       "url": "/someurl1",
       "likes": 1
     },
     {
       "title": "Example 2",
-      "author": "me",
+      "author": "me2",
       "url": "/someurl2",
       "likes": 2
     }]
@@ -61,9 +61,85 @@ describe('Favourite blog', () => {
     const result = listHelper.favoriteBlog(blogs)
     expect(result).toEqual({
       "title": "Example 2",
-      "author": "me",
+      "author": "me2",
       "url": "/someurl2",
       "likes": 2
     })
   })
 })
+
+describe('mostBlogs', () => {
+  test('Author with most blogs from an empty array', () => {
+    const blogs = [];
+
+    const result = listHelper.mostBlogs(blogs);
+
+    expect(result).toEqual({ author: '', blogs: 0 });
+  });
+
+  test('Author with most blogs from an array with different authors', () => {
+    const blogs = [
+      {
+        "title": "Example 1",
+        "author": "me1",
+        "url": "/someurl1",
+        "likes": 1
+      },
+      {
+        "title": "Example 2",
+        "author": "me2",
+        "url": "/someurl2",
+        "likes": 2
+      },
+      {
+        "title": "Example 3",
+        "author": "me1",
+        "url": "/someurl3",
+        "likes": 3
+      },
+      {
+        "title": "Example 4",
+        "author": "me3",
+        "url": "/someurl4",
+        "likes": 4
+      },
+      {
+        "title": "Example 5",
+        "author": "me2",
+        "url": "/someurl5",
+        "likes": 5
+      }
+    ];
+
+    const result = listHelper.mostBlogs(blogs);
+
+    expect(result).toEqual({ author: 'me1', blogs: 2 });
+  });
+
+  test('Author with most blogs from an array with one author', () => {
+    const blogs = [
+      {
+        "title": "Example 1",
+        "author": "me1",
+        "url": "/someurl1",
+        "likes": 1
+      },
+      {
+        "title": "Example 2",
+        "author": "me1",
+        "url": "/someurl2",
+        "likes": 2
+      },
+      {
+        "title": "Example 3",
+        "author": "me1",
+        "url": "/someurl3",
+        "likes": 3
+      }
+    ];
+
+    const result = listHelper.mostBlogs(blogs);
+
+    expect(result).toEqual({ author: 'me1', blogs: 3 });
+  });
+});
