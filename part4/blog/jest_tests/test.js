@@ -143,3 +143,79 @@ describe('mostBlogs', () => {
     expect(result).toEqual({ author: 'me1', blogs: 3 });
   });
 });
+
+describe('mostLikes', () => {
+  test('Author with most likes from an empty array', () => {
+    const blogs = [];
+
+    const result = listHelper.mostLikes(blogs);
+
+    expect(result).toEqual({ author: '', likes: 0 });
+  });
+
+  test('Author with most likes from an array with different authors', () => {
+    const blogs = [
+      {
+        "title": "Example 1",
+        "author": "me1",
+        "url": "/someurl1",
+        "likes": 1
+      },
+      {
+        "title": "Example 2",
+        "author": "me2",
+        "url": "/someurl2",
+        "likes": 2
+      },
+      {
+        "title": "Example 3",
+        "author": "me1",
+        "url": "/someurl3",
+        "likes": 3
+      },
+      {
+        "title": "Example 4",
+        "author": "me3",
+        "url": "/someurl4",
+        "likes": 4
+      },
+      {
+        "title": "Example 5",
+        "author": "me2",
+        "url": "/someurl5",
+        "likes": 5
+      }
+    ];
+
+    const result = listHelper.mostLikes(blogs);
+
+    expect(result).toEqual({ author: 'me2', likes: 7 });
+  });
+
+  test('Author with most likes from an array with one author', () => {
+    const blogs = [
+      {
+        "title": "Example 1",
+        "author": "me1",
+        "url": "/someurl1",
+        "likes": 1
+      },
+      {
+        "title": "Example 2",
+        "author": "me1",
+        "url": "/someurl2",
+        "likes": 2
+      },
+      {
+        "title": "Example 3",
+        "author": "me1",
+        "url": "/someurl3",
+        "likes": 3
+      }
+    ];
+
+    const result = listHelper.mostLikes(blogs);
+
+    expect(result).toEqual({ author: 'me1', likes: 6 });
+  });
+});
